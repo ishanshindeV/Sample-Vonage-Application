@@ -2,6 +2,10 @@
     "name": "opentok-web-samples",
     "version": "1.0.0",
     "description": "Sample applications for using the OpenTok.js library.",
+    "engines":{
+        "node": ">=10.0.0",
+        "npm": ">=6.0.0"
+    },
     "scripts": {
       "lint": "eslint .",
       "test": "wdio wdio.conf.js",
