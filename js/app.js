@@ -104,7 +104,7 @@ function startArchive() { // eslint-disable-line no-unused-vars
   $.ajax({
     url: SAMPLE_SERVER_BASE_URL + '/archive/start',
     type: 'POST',
-    //headers:{'Access-Control-Allow-Origin': '*'},
+    headers:{'Access-Control-Allow-Origin': '*'},
     contentType: 'application/json', // send as JSON
     data: JSON.stringify({'sessionId': sessionId}),
 
