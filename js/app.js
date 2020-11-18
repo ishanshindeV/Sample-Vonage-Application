@@ -6,6 +6,10 @@ var token;
 var archiveID;
 var session;
 var currentVideoSource;
+var layout;
+
+const RED = '#f44336';
+const GREEN = '#4CAF50';
 
 // As soon as the page loads, call this
 $(document).ready(function ready() {
@@ -27,9 +31,9 @@ function initializeSession() {
 
     // Get session 
     session = OT.initSession(apiKey, sessionId);
-
+    layout = setupFeatures();
     // Initialize session event listners
-    sessionEventListners(session);
+    sessionEventListners(session, layout);
 
     // Initialize the publisher and publish
     publishToStreamInitial(session);
@@ -38,8 +42,7 @@ function initializeSession() {
 
 }
 
-function publishToStreamInitial(session)
-{
+function publishToStreamInitial(session) {
     var publisherOptions = {
         insertMode: 'append',
         width: '100%',
@@ -69,6 +72,7 @@ function publishToStreamInitial(session)
         }
     });
 }
+
 function publishToStream(session, videoType) {
 
     var publisherOptions;
@@ -80,11 +84,10 @@ function publishToStream(session, videoType) {
             width: '100%',
             height: '100%'
         };
-    }
-    else
-    {
+        currentVideoSource = 'camera';
+    } else {
         publisherOptions = {
-            videoSource:'screen'
+            videoSource: 'screen'
         };
         currentVideoSource = 'screen';
     }
@@ -93,10 +96,9 @@ function publishToStream(session, videoType) {
         if (initErr) {
             console.error('There was an error initializing the publisher: ', initErr.name, initErr.message);
             return;
-        }
-        else{
-            session.publish(publisher, function (error){
-                if (error){
+        } else {
+            session.publish(publisher, function(error) {
+                if (error) {
                     console.error('There was an error publishing: ', error.name, error.message);
                 }
             })
@@ -104,7 +106,28 @@ function publishToStream(session, videoType) {
     });
 }
 
-function sessionEventListners(session) {
+function setupFeatures() {
+    const layoutContainer = document.getElementById('layout');
+
+    const options = {
+        maxRatio: 3 / 2,
+        minRatio: 9 / 16,
+        fixedRatio: false,
+        bigMaxRatio: 3 / 2,
+        bigMinRatio: 9 / 16,
+        bigFirst: true,
+        animate: true,
+        animateDuration: 200,
+        animateEasing: "swing",
+        window,
+    };
+
+    // Initialize the layout container and get a reference to the layout method
+    var layout = initLayoutContainer(layoutContainer, options);
+    return layout;
+}
+
+function sessionEventListners(session, layout) {
 
     // Whenever anything changes on the publisher's end, 'streamCreated' event is called
     session.on('streamCreated', function streamCreated(event) {
@@ -123,6 +146,8 @@ function sessionEventListners(session) {
                 console.log('There was an error publishing: ', error.name, error.message);
             }
         });
+
+        layout.layout();
 
     });
 
@@ -161,15 +186,8 @@ function sessionEventListners(session) {
 function startArchive() { // eslint-disable-line no-unused-vars
     $.ajax({
         url: SAMPLE_SERVER_BASE_URL + '/archive/start',
-        method: 'POST',
-        mode: 'cors',
-        cache: 'no-cache',
-        headers:
-        {
-            'Content-Type': 'application/json',
-        },
-        redirect: 'follow',
-        referrerPolicy: 'no-referrer',
+        type: 'POST',
+        contentType: 'application/json',
         data: JSON.stringify({ 'sessionId': sessionId }),
 
         complete: function complete() {
@@ -216,11 +234,25 @@ var msgTxt = document.querySelector('#msgTxt');
 
 // Button for Toggling Text Chat Window
 function toggleTextChat() {
+
     var textBox = document.getElementById('textchat');
-    if (textBox.style.display === 'none')
+    var videos = document.getElementById('videos');
+
+    var textChatButton = document.getElementById('textChatButton');
+
+    if (textBox.style.display === 'none' || textBox.style.display === '') {
         textBox.style.display = 'block';
-    else
+        textChatButton.style.backgroundColor = RED;
+        videos.style.width = '80%';
+        layout.layout();
+
+    } else {
         textBox.style.display = 'none';
+        textChatButton.style.backgroundColor = GREEN;
+        videos.style.width = '100%';
+        layout.layout();
+    }
+
 }
 // Send a signal once the user enters data in the form
 form.addEventListener('submit', function submit(event) {
@@ -240,28 +272,46 @@ form.addEventListener('submit', function submit(event) {
 
 // For screen sharing
 function toggleScreenSharing() {
-    
+
     // Initialise the session event listners
     sessionEventListners(session);
 
+    var screenShareButton = document.getElementById('screenShare');
+
     // If currentVideoSource is Camera, share the screen else share camera again
-    if (currentVideoSource === 'camera')
-    {
-        OT.checkScreenSharingCapability(function (response) {
+    if (currentVideoSource === 'camera') {
+
+        screenShareButton.style.backgroundColor = RED;
+        OT.checkScreenSharingCapability(function(response) {
             if (!response.supported || response.extensionRegistered === false) {
                 // This browser does not support screen sharing.
             } else if (response.extensionInstalled === false) {
                 // Prompt to install the extension.
             } else {
-                
+
                 publishToStream(session, 'screen');
             }
         });
-    }
-    else{
+    } else {
+        screenShareButton.style.backgroundColor = GREEN;
         publishToStream(session, 'camera');
     }
-    
+
 }
 
+// Toggle publisher
+function togglePublisher() {
+    var pub = document.getElementById('publisher');
+    var pubButton = document.getElementById('Publisher');
 
+    if (pub.style.display === 'none') {
+        pub.style.display = 'block';
+        pubButton.style.backgroundColor = GREEN;
+        pub.style.backgroundColor = '#FFFFFF';
+    } else {
+        pub.style.display = 'none';
+        pubButton.style.backgroundColor = RED;
+        pub.style.backgroundColor = '#7FFF00';
+    }
+
+}

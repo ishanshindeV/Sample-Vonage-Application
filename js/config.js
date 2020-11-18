@@ -7,4 +7,6 @@
 // Do not include the trailing slash.
 // See the README for more information
 
-var SAMPLE_SERVER_BASE_URL = 'https://sample-vonage-app-01.herokuapp.com'; // eslint-disable-line no-unused-vars
+//var SAMPLE_SERVER_BASE_URL = 'https://sample-vonage-app-01.herokuapp.com'; // eslint-disable-line no-unused-vars
+//var SAMPLE_SERVER_BASE_URL = 'https://obscure-everglades-15006.herokuapp.com';
+var SAMPLE_SERVER_BASE_URL = 'https://sample-vonage-app-02.herokuapp.com';
