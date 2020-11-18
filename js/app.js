@@ -17,7 +17,7 @@ $(document).ready(function ready() {
     archiveID = null;
 
     // Make an Ajax request to get the OpenTok API key, session ID, and token from the server
-    $.get(SAMPLE_SERVER_BASE_URL + '/session', function get(res) {
+    $.get(SAMPLE_SERVER_BASE_URL + '/session/abc', function get(res) {
         apiKey = res.apiKey;
         sessionId = res.sessionId;
         token = res.token;
@@ -139,7 +139,7 @@ function sessionEventListners(session, layout) {
         };
 
         if (event.stream.videoType === 'screen')
-            subscriberOptions.insertMode = 'replace'
+            subscriberOptions.insertMode = 'replace';
 
         session.subscribe(event.stream, 'subscriber', subscriberOptions, function callback(error) {
             if (error) {
