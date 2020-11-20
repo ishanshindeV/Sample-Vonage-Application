@@ -24,6 +24,12 @@ html {
     position: relative;
 }
 
+img.logo {
+    width: 120px;
+    height: 90px;
+    margin-bottom: 30px;
+}
+
 #subscriber {
     display: flex;
     flex-direction: row;
@@ -45,6 +51,18 @@ html {
 
 .button {
     background-color: #4CAF50;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    color: #DCD9B5;
+    font-size: 18px;
+    -webkit-appearance: none;
+    font-family: 'Ropa Sans', sans-serif;
+    transition: width 200ms, height 200ms ease;
+    padding-left: 14px;
+    padding-top: 5px;
+    pointer-events: auto;
+    margin: 0;
 }
 
 #buttonholder {

@@ -8,8 +8,8 @@ var session;
 var currentVideoSource;
 var layout;
 
-const RED = '#f44336';
-const GREEN = '#4CAF50';
+const RED = '#C04B4B';
+const GREEN = '#4D9154';
 
 // As soon as the page loads, call this
 $(document).ready(function ready() {

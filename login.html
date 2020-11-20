@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+</head>
+<title>Sample Vonage Application</title>
+<link href="css/app.css" rel="stylesheet" type="text/css">
+<link href="css/login.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div id="wrapper">
+        <img src="images/opentok-meet-logo.png" alt="Logo" class="logo">
+        <form id="joinRoom">
+            <div id="inputs">
+                <input type="text" name="room" value="" id="room" placeholder="room name">
+                <div id="advancedLink">
+                    <a onclick="toggleAdvanced()">Advanced</a>
+                </div>
+                <div id="advanced" style="display: none;">
+                    <div id="p2pCheckbox">
+                        <input type="checkbox" name="p2p" id="p2p">
+                        <label for="p2p">
+                            Relayed <a href="https://support.tokbox.com/hc/en-us/articles/360029411712-What-is-the-difference-between-a-Routed-vs-Relayed-Session-" target="_blank">?</a>
+                          </label>
+                        <input type="checkbox" name="dtx" id="p2p">
+                        <label for="dtx">
+                              Routed
+                            </label>
+                    </div>
+                </div>
+            </div>
+            <input type="button" name="joinRoom" value="Join" id="joinRoomBtn" onclick="loadIndex()">
+        </form>
+    </div>
+    <script>
+        function toggleAdvanced() {
+            var advanced = document.getElementById("advanced");
+            if (advanced.style.display === 'none' || advanced.style.display === '')
+                advanced.style.display = "block";
+            else
+                advanced.style.display = 'none';
+
+        }
+
+        function loadIndex() {
+            console.log('Loading login');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+
+</html>
