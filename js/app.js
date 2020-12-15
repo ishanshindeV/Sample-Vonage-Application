@@ -182,6 +182,12 @@ function sessionEventListners(session, layout) {
 }
 
 // FOR ARCHIVING
+var transmissionType = localStorage.getItem('transmissionType');
+if (transmissionType === 'p2p')
+    $('#start').hide();
+else
+    $('#start').show();
+
 // Start recording
 function startArchive() { // eslint-disable-line no-unused-vars
     $.ajax({
@@ -222,10 +228,11 @@ function stopArchive() { // eslint-disable-line no-unused-vars
 // every 5 secs until it is "available"
 function viewArchive() { // eslint-disable-line no-unused-vars
     $('#view').prop('disabled', true);
-    window.location = SAMPLE_SERVER_BASE_URL + /archive/ + archiveID + '/view';
+    window.open(SAMPLE_SERVER_BASE_URL + /archive/ + archiveID + '/view');
+    $('#view').hide();
+    $('#start').show();
 }
 
-$('#start').show();
 $('#view').hide();
 
 // FOR TEXT CHAT
@@ -314,4 +321,8 @@ function togglePublisher() {
         pub.style.backgroundColor = '#7FFF00';
     }
 
+}
+
+function clickLeave() {
+    window.location.href = 'login.html';
 }
