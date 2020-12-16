@@ -7,6 +7,7 @@ var archiveID;
 var session;
 var currentVideoSource;
 var layout;
+var publisher;
 
 const RED = '#C04B4B';
 const GREEN = '#4D9154';
@@ -49,7 +50,7 @@ function publishToStreamInitial(session) {
         height: '100%'
     };
 
-    var publisher = OT.initPublisher('publisher', publisherOptions, function initCallback(initErr) {
+    publisher = OT.initPublisher('publisher', publisherOptions, function initCallback(initErr) {
         if (initErr) {
             console.error('There was an error initializing the publisher: ', initErr.name, initErr.message);
             return;
@@ -313,11 +314,11 @@ function togglePublisher() {
 
     if (pub.style.display === 'none') {
         pub.style.display = 'block';
-        pubButton.style.backgroundColor = GREEN;
+        pubButton.style.backgroundColor = RED;
         pub.style.backgroundColor = '#FFFFFF';
     } else {
         pub.style.display = 'none';
-        pubButton.style.backgroundColor = RED;
+        pubButton.style.backgroundColor = GREEN;
         pub.style.backgroundColor = '#7FFF00';
     }
 
@@ -325,4 +326,32 @@ function togglePublisher() {
 
 function clickLeave() {
     window.location.href = 'login.html';
+}
+
+// Toggle Camera
+function toggleVideo() {
+
+    var cameraButton = document.getElementById('startVideo');
+
+    if (cameraButton.style.backgroundColor === 'rgb(192, 75, 75)') {
+        cameraButton.style.backgroundColor = GREEN;
+        publisher.publishVideo(false);
+    } else {
+        cameraButton.style.backgroundColor = RED;
+        publisher.publishVideo(true);
+    }
+}
+
+// Toggle Mic
+function toggleMic() {
+
+    var micButton = document.getElementById('stopAudio');
+
+    if (micButton.style.backgroundColor === 'rgb(192, 75, 75)') {
+        micButton.style.backgroundColor = GREEN;
+        publisher.publishAudio(false);
+    } else {
+        micButton.style.backgroundColor = RED;
+        publisher.publishAudio(true);
+    }
 }
